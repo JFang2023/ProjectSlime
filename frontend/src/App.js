@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const dispatch = useDispatch();
-  const shouldShowPrivacyPolicy = true;
+  const showPrivacyPolicy = true;
 
   useEffect(() => {
     const expirationTime = localStorage.getItem('expirationTime');
@@ -32,7 +32,7 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          {shouldShowPrivacyPolicy && <PrivacyPolicy />}
+          {showPrivacyPolicy && <PrivacyPolicy />}
           <Outlet />
         </Container>
       </main>
