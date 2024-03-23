@@ -1,6 +1,33 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
+import rateLimit from 'express-rate-limit';
+import { Router } from 'express';
+const router = Router();
+
+// Rate limiter
+const userRateLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour window
+  max: 5, // maximum 5 requests per hour for testing
+  keyGenerator: function (req /*, res*/) {
+    // Customize the key generation logic based on user IP address
+    return req.user ? req.user.id : req.ip;
+  },
+  handler: function (req, res /*, next*/) {
+    res.status(429).json({ message: 'Too many requests, please try again after one hour.' });
+  },
+});
+
+const applyRateLimit = (req, res, next) => {
+  // Apply rate limiting to authentications
+  if (req.path === '/api/users/auth') {
+    return userRateLimiter(req, res, next);
+  }
+  // Proceed to the next middleware if not require rate limiting
+  next();
+};
+
+router.use(applyRateLimit);
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -178,6 +205,7 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+router.post('/auth', authUser);
 
 export {
   authUser,
