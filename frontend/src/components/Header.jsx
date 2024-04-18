@@ -43,8 +43,28 @@ const Header = () => {
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
+
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              {/* Category */}
+              <NavDropdown title='Categories' id='categories-dropdown'>
+                <LinkContainer to='/category/Camera'>
+                  <NavDropdown.Item>Camera</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/category/Computers & Tablets'>
+                  <NavDropdown.Item>Computers & Tablets</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/category/Headphones'>
+                  <NavDropdown.Item>Headphones</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/category/iPhone'>
+                  <NavDropdown.Item>iPhone</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/category/Video Games'>
+                  <NavDropdown.Item>Video Games</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
+
               {/* Search */}
               <SearchBox />
 

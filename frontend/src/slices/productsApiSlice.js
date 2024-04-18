@@ -1,3 +1,4 @@
+import { BASE_URL } from '../constants';
 import { PRODUCTS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
 
@@ -14,6 +15,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    getProductsByCategory: builder.query({
+      query: (category) => ({
+        url: `${BASE_URL}/category/${category}`,
       }),
       keepUnusedDataFor: 5,
     }),
@@ -64,6 +71,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
+  useGetProductsByCategoryQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
   useUploadProductImageMutation,
