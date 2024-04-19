@@ -125,6 +125,15 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get products by category
+// @route   GET /api/products/category/:category
+// @access  Public
+const getProductsByCategory = asyncHandler(async (req, res) => {
+  const category = req.params.category;
+  const products = await Product.find({ category });
+  res.json(products);
+});
+
 // @desc    Create a product
 // @route   POST /api/products
 // @access  Private/Admin
@@ -245,4 +254,5 @@ export {
   createProductReview,
   getTopProducts,
   getRecommendedProducts,
+  getProductsByCategory,
 };
