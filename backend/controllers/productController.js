@@ -61,8 +61,10 @@ const getRecommendedProducts = asyncHandler(async (req, res) => {
       apiKey: process.env.OPENAI_API_KEY,
     });
     // 使用chatCompletion端点发送请求
+    const prompt = `User interest: ${userRequest}. Products: ${productsText}. Based on the user interest, recommend products.`;
+    console.log("Prompt:", prompt);
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // 根据您的需求选择合适的模型
+      model: "ft:gpt-3.5-turbo-1106:genaiteam3:slime:9Fnt5QA4", // 根据您的需求选择合适的模型
       messages: [
         {
           role: "system",
@@ -70,10 +72,12 @@ const getRecommendedProducts = asyncHandler(async (req, res) => {
         },
         {
           role: "user",
-          content: `User interest: ${userRequest}. Products: ${productsText}. Based on the user interest, recommend products.`,
+          content: prompt,
         },
       ],
     });
+
+    console.log("GPT Response:", response.choices[0].message.content);
 
     // 提取GPT的响应，并使用分号分割产品名
     const recommendedProductNames = response.choices[0].message.content.split(';').map(name => name.trim());
